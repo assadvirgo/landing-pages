@@ -241,8 +241,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 1.5rem;
-            font-weight: 700;
         }
 
         .logo-icon {
@@ -250,6 +248,25 @@
             height: 40px;
             border-radius: 10px;
             object-fit: contain;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .logo-text h1 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .logo-text .tagline {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--text-secondary);
         }
 
         .nav-links {
@@ -1362,7 +1379,10 @@
         <div class="container">
             <a href="#" class="logo" aria-label="GOL Technologies Pvt Ltd Home">
                 <img src="https://www.goldevelopers.com/images/logo-gol.png" alt="GOL Technologies Pvt Ltd Logo" class="logo-icon">
-                <span>GOL Technologies</span>
+                <div class="logo-text">
+                    <h1>GOL Technologies Pvt Ltd</h1>
+                    <span class="tagline">Your Digital Partner</span>
+                </div>
             </a>
 
             <ul class="nav-links">
@@ -1935,7 +1955,10 @@
                 <div class="footer-brand">
                     <a href="#" class="logo" aria-label="GOL Technologies Pvt Ltd Home">
                         <img src="https://www.goldevelopers.com/images/logo-gol.png" alt="GOL Technologies Pvt Ltd Logo" class="logo-icon">
-                        <span>GOL Technologies</span>
+                        <div class="logo-text">
+                            <h1>GOL Technologies Pvt Ltd</h1>
+                            <span class="tagline">Your Digital Partner</span>
+                        </div>
                     </a>
                     <p>
                         We build custom AI agents and intelligent automation systems that transform manual workflows into efficient, scalable operations.
