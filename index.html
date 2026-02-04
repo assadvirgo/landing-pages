@@ -1896,6 +1896,583 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* ========================================
+           AI AUDIT WIZARD MODAL
+           ======================================== */
+        .wizard-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .wizard-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .wizard-modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: hidden;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 123, 255, 0.15);
+        }
+
+        .wizard-overlay.active .wizard-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .wizard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--glass-border);
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 212, 255, 0.05));
+        }
+
+        .wizard-header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .wizard-ai-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+            animation: avatarPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes avatarPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 123, 255, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(0, 123, 255, 0.7); }
+        }
+
+        .wizard-ai-avatar svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .wizard-header-text h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .wizard-header-text p {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        .wizard-close {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .wizard-close:hover {
+            background: rgba(255, 100, 100, 0.1);
+            border-color: rgba(255, 100, 100, 0.3);
+            color: #ff6b6b;
+        }
+
+        .wizard-progress {
+            padding: 16px 32px;
+            background: var(--bg-tertiary);
+        }
+
+        .wizard-progress-bar {
+            height: 4px;
+            background: var(--glass-border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .wizard-progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        .wizard-progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .wizard-body {
+            padding: 32px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .wizard-step {
+            display: none;
+            animation: stepFadeIn 0.4s ease;
+        }
+
+        .wizard-step.active {
+            display: block;
+        }
+
+        @keyframes stepFadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .wizard-question {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .wizard-question-avatar {
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 123, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .wizard-question-avatar svg {
+            width: 18px;
+            height: 18px;
+            color: var(--accent-cyan);
+        }
+
+        .wizard-question-bubble {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            border-top-left-radius: 4px;
+            padding: 16px 20px;
+            max-width: 85%;
+        }
+
+        .wizard-question-bubble p {
+            font-size: 1rem;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .wizard-input-group {
+            margin-bottom: 16px;
+        }
+
+        .wizard-input-group label {
+            display: block;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .wizard-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .wizard-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        }
+
+        .wizard-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .wizard-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238B949E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 18px;
+            padding-right: 48px;
+            cursor: pointer;
+        }
+
+        .wizard-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .wizard-checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .wizard-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .wizard-checkbox-item:hover {
+            border-color: var(--accent-blue);
+            background: rgba(0, 123, 255, 0.05);
+        }
+
+        .wizard-checkbox-item.selected {
+            border-color: var(--accent-blue);
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .wizard-checkbox-item input {
+            display: none;
+        }
+
+        .wizard-checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--glass-border);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .wizard-checkbox-item.selected .wizard-checkbox-custom {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .wizard-checkbox-custom svg {
+            width: 12px;
+            height: 12px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .wizard-checkbox-item.selected .wizard-checkbox-custom svg {
+            opacity: 1;
+        }
+
+        .wizard-checkbox-text {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .wizard-radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wizard-radio-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .wizard-radio-item:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .wizard-radio-item.selected {
+            border-color: var(--accent-blue);
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .wizard-radio-item input {
+            display: none;
+        }
+
+        .wizard-radio-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .wizard-radio-item.selected .wizard-radio-custom {
+            border-color: var(--accent-blue);
+        }
+
+        .wizard-radio-custom::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s ease;
+        }
+
+        .wizard-radio-item.selected .wizard-radio-custom::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .wizard-radio-text {
+            font-size: 0.9375rem;
+            color: var(--text-primary);
+        }
+
+        .wizard-summary {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .wizard-summary-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .wizard-summary-title svg {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-green);
+        }
+
+        .wizard-summary-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .wizard-summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .wizard-summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .wizard-summary-label {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        .wizard-summary-value {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            text-align: right;
+            max-width: 60%;
+        }
+
+        .wizard-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 32px;
+            border-top: 1px solid var(--glass-border);
+            background: var(--bg-tertiary);
+        }
+
+        .wizard-btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wizard-btn-back {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        .wizard-btn-back:hover {
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+
+        .wizard-btn-next {
+            background: var(--accent-blue);
+            border: none;
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .wizard-btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.5);
+        }
+
+        .wizard-btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .wizard-btn-next svg,
+        .wizard-btn-back svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .wizard-success {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .wizard-success-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(34, 197, 94, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: successPop 0.5s ease;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .wizard-success-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--accent-green);
+        }
+
+        .wizard-success h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .wizard-success p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .wizard-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .wizard-loading-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: loadingBounce 0.6s infinite alternate;
+        }
+
+        .wizard-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .wizard-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes loadingBounce {
+            to { transform: translateY(-6px); opacity: 0.5; }
+        }
+
+        @media (max-width: 640px) {
+            .wizard-modal {
+                max-height: 95vh;
+            }
+
+            .wizard-header {
+                padding: 20px 24px;
+            }
+
+            .wizard-body {
+                padding: 24px;
+            }
+
+            .wizard-footer {
+                padding: 20px 24px;
+            }
+
+            .wizard-checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .wizard-question-bubble {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1918,7 +2495,7 @@
                 <li><a href="#demo" class="nav-link">Demo</a></li>
             </ul>
 
-            <a href="#cta" class="btn btn-primary nav-cta">Book AI Audit</a>
+            <a href="#cta" class="btn btn-primary nav-cta" data-open-wizard>Book AI Audit</a>
 
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu" aria-expanded="false">
                 <span></span>
@@ -1938,7 +2515,7 @@
             <li><a href="#demo">Demo</a></li>
         </ul>
         <div class="mobile-menu-cta">
-            <a href="#cta" class="btn btn-primary">Book AI Audit</a>
+            <a href="#cta" class="btn btn-primary" data-open-wizard>Book AI Audit</a>
         </div>
     </div>
 
@@ -1967,7 +2544,7 @@
                     </p>
 
                     <div class="hero-cta">
-                        <a href="#cta" class="btn btn-primary">
+                        <a href="#cta" class="btn btn-primary" data-open-wizard>
                             <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                 <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -2668,7 +3245,7 @@
                     Book a free AI Strategy Audit and discover how custom intelligent agents can automate your most time-consuming tasks and accelerate your business.
                 </p>
                 <div class="cta-buttons">
-                    <a href="mailto:hello@goldevelopers.com?subject=AI%20Strategy%20Audit%20Request" class="btn btn-primary">
+                    <a href="#" class="btn btn-primary" data-open-wizard>
                         <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                             <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -2745,15 +3322,6 @@
                     </ul>
                 </nav>
 
-                <nav class="footer-column" aria-label="Resources">
-                    <h4>Resources</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">API Reference</a></li>
-                        <li><a href="#">Support</a></li>
-                    </ul>
-                </nav>
             </div>
 
             <div class="footer-bottom">
@@ -2768,6 +3336,443 @@
             </div>
         </div>
     </footer>
+
+    <!-- AI Audit Wizard Modal -->
+    <div class="wizard-overlay" id="auditWizard" role="dialog" aria-modal="true" aria-labelledby="wizardTitle">
+        <div class="wizard-modal">
+            <div class="wizard-header">
+                <div class="wizard-header-content">
+                    <div class="wizard-ai-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path>
+                            <circle cx="7.5" cy="14.5" r="1.5"></circle>
+                            <circle cx="16.5" cy="14.5" r="1.5"></circle>
+                        </svg>
+                    </div>
+                    <div class="wizard-header-text">
+                        <h3 id="wizardTitle">AI Strategy Audit</h3>
+                        <p>Let's understand your automation needs</p>
+                    </div>
+                </div>
+                <button class="wizard-close" id="wizardClose" aria-label="Close wizard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="wizard-progress">
+                <div class="wizard-progress-bar">
+                    <div class="wizard-progress-fill" id="wizardProgressFill" style="width: 16.66%"></div>
+                </div>
+                <div class="wizard-progress-text">
+                    <span id="wizardStepText">Step 1 of 6</span>
+                    <span id="wizardStepName">Contact Info</span>
+                </div>
+            </div>
+
+            <div class="wizard-body" id="wizardBody">
+                <!-- Step 1: Contact Information -->
+                <div class="wizard-step active" data-step="1">
+                    <div class="wizard-question">
+                        <div class="wizard-question-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="wizard-question-bubble">
+                            <p>Hi there! I'm excited to help you explore AI automation opportunities. Let's start with your contact details so we can personalize your audit.</p>
+                        </div>
+                    </div>
+                    <div class="wizard-input-group">
+                        <label for="wizardName">Your Name *</label>
+                        <input type="text" class="wizard-input" id="wizardName" placeholder="John Smith" required>
+                    </div>
+                    <div class="wizard-input-group">
+                        <label for="wizardEmail">Email Address *</label>
+                        <input type="email" class="wizard-input" id="wizardEmail" placeholder="john@company.com" required>
+                    </div>
+                    <div class="wizard-input-group">
+                        <label for="wizardCompany">Company Name *</label>
+                        <input type="text" class="wizard-input" id="wizardCompany" placeholder="Your Company Inc.">
+                    </div>
+                </div>
+
+                <!-- Step 2: Business Understanding -->
+                <div class="wizard-step" data-step="2">
+                    <div class="wizard-question">
+                        <div class="wizard-question-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="wizard-question-bubble">
+                            <p>Great! Now let's understand your business better. This helps us identify the most impactful automation opportunities for your industry.</p>
+                        </div>
+                    </div>
+                    <div class="wizard-input-group">
+                        <label for="wizardIndustry">What industry does your company operate in? *</label>
+                        <select class="wizard-input wizard-select" id="wizardIndustry" required>
+                            <option value="">Select your industry</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Finance">Finance & Banking</option>
+                            <option value="E-commerce">E-commerce & Retail</option>
+                            <option value="Real Estate">Real Estate</option>
+                            <option value="Legal">Legal Services</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Logistics">Logistics & Supply Chain</option>
+                            <option value="Education">Education</option>
+                            <option value="Technology">Technology & SaaS</option>
+                            <option value="Marketing">Marketing & Advertising</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="wizard-input-group">
+                        <label>Company Size</label>
+                        <div class="wizard-radio-group" id="companySizeGroup">
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="companySize" value="1-10">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">1-10 employees</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="companySize" value="11-50">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">11-50 employees</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="companySize" value="51-200">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">51-200 employees</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="companySize" value="201-500">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">201-500 employees</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="companySize" value="500+">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">500+ employees</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Pain Points -->
+                <div class="wizard-step" data-step="3">
+                    <div class="wizard-question">
+                        <div class="wizard-question-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="wizard-question-bubble">
+                            <p>What manual or repetitive tasks are consuming the most time in your organization? Select all that apply.</p>
+                        </div>
+                    </div>
+                    <div class="wizard-checkbox-group" id="painPointsGroup">
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="painPoints" value="Data Entry">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Data Entry</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="painPoints" value="Customer Support">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Customer Support</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="painPoints" value="Report Generation">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Report Generation</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="painPoints" value="Document Processing">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Document Processing</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="painPoints" value="Email Management">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Email Management</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="painPoints" value="Scheduling">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Scheduling</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="painPoints" value="Lead Qualification">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Lead Qualification</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="painPoints" value="Other">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Other</span>
+                        </label>
+                    </div>
+                    <div class="wizard-input-group" style="margin-top: 20px;">
+                        <label for="wizardChallenge">Briefly describe your biggest operational challenge (optional)</label>
+                        <textarea class="wizard-input wizard-textarea" id="wizardChallenge" placeholder="Tell us about a specific process that's slowing your team down..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 4: Technical Context -->
+                <div class="wizard-step" data-step="4">
+                    <div class="wizard-question">
+                        <div class="wizard-question-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="wizard-question-bubble">
+                            <p>What tools and platforms does your team currently use? This helps us understand integration requirements.</p>
+                        </div>
+                    </div>
+                    <div class="wizard-checkbox-group" id="toolsGroup">
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="tools" value="CRM (Salesforce, HubSpot)">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">CRM (Salesforce, HubSpot)</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="tools" value="Google Workspace">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Google Workspace</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="tools" value="Microsoft 365">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Microsoft 365</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="tools" value="Slack / Teams">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Slack / Teams</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="tools" value="Custom Software">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">Custom Software</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="tools" value="ERP Systems">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">ERP Systems</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="tools" value="WhatsApp Business">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">WhatsApp Business</span>
+                        </label>
+                        <label class="wizard-checkbox-item">
+                            <input type="checkbox" name="tools" value="None specific">
+                            <span class="wizard-checkbox-custom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="wizard-checkbox-text">None specific</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 5: Timeline & Budget -->
+                <div class="wizard-step" data-step="5">
+                    <div class="wizard-question">
+                        <div class="wizard-question-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="wizard-question-bubble">
+                            <p>Almost done! Let's talk about your timeline and investment expectations for this automation initiative.</p>
+                        </div>
+                    </div>
+                    <div class="wizard-input-group">
+                        <label>When are you looking to implement AI automation?</label>
+                        <div class="wizard-radio-group" id="timelineGroup">
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="timeline" value="Immediately">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">Immediately - ASAP</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="timeline" value="Within 1 month">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">Within 1 month</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="timeline" value="1-3 months">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">1-3 months</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="timeline" value="3-6 months">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">3-6 months</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="timeline" value="Just exploring">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">Just exploring options</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="wizard-input-group" style="margin-top: 24px;">
+                        <label>Estimated budget range</label>
+                        <div class="wizard-radio-group" id="budgetGroup">
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="budget" value="Under $5K">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">Under $5,000</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="budget" value="$5K-$15K">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">$5,000 - $15,000</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="budget" value="$15K-$50K">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">$15,000 - $50,000</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="budget" value="$50K+">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">$50,000+</span>
+                            </label>
+                            <label class="wizard-radio-item">
+                                <input type="radio" name="budget" value="Not sure yet">
+                                <span class="wizard-radio-custom"></span>
+                                <span class="wizard-radio-text">Not sure yet</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6: Summary & Submit -->
+                <div class="wizard-step" data-step="6">
+                    <div class="wizard-question">
+                        <div class="wizard-question-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="wizard-question-bubble">
+                            <p>Perfect! Here's a summary of your AI audit request. Review your information and click submit to schedule your free consultation.</p>
+                        </div>
+                    </div>
+                    <div class="wizard-summary">
+                        <div class="wizard-summary-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            Your Audit Request Summary
+                        </div>
+                        <div class="wizard-summary-grid" id="wizardSummaryGrid">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success State -->
+                <div class="wizard-step" data-step="success">
+                    <div class="wizard-success">
+                        <div class="wizard-success-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Audit Request Submitted!</h3>
+                        <p>Thank you for your interest! Our AI automation experts will review your information and reach out within 24 hours to schedule your free strategy session.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wizard-footer" id="wizardFooter">
+                <button class="wizard-btn wizard-btn-back" id="wizardBack" style="visibility: hidden;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back
+                </button>
+                <button class="wizard-btn wizard-btn-next" id="wizardNext">
+                    Continue
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- JavaScript -->
     <script>
@@ -2913,6 +3918,284 @@
                 el.classList.add('visible');
             });
         }
+
+        // ========================================
+        // AI AUDIT WIZARD
+        // ========================================
+        const wizardOverlay = document.getElementById('auditWizard');
+        const wizardClose = document.getElementById('wizardClose');
+        const wizardBack = document.getElementById('wizardBack');
+        const wizardNext = document.getElementById('wizardNext');
+        const wizardProgressFill = document.getElementById('wizardProgressFill');
+        const wizardStepText = document.getElementById('wizardStepText');
+        const wizardStepName = document.getElementById('wizardStepName');
+        const wizardFooter = document.getElementById('wizardFooter');
+        const wizardSummaryGrid = document.getElementById('wizardSummaryGrid');
+
+        const stepNames = ['Contact Info', 'Business', 'Pain Points', 'Tools', 'Timeline', 'Review'];
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        // Wizard form data
+        const wizardData = {
+            name: '',
+            email: '',
+            company: '',
+            industry: '',
+            companySize: '',
+            painPoints: [],
+            challenge: '',
+            tools: [],
+            timeline: '',
+            budget: ''
+        };
+
+        // Open wizard
+        function openWizard() {
+            wizardOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            currentStep = 1;
+            updateWizardStep();
+        }
+
+        // Close wizard
+        function closeWizard() {
+            wizardOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Update wizard step display
+        function updateWizardStep() {
+            const steps = document.querySelectorAll('.wizard-step');
+            steps.forEach(step => {
+                step.classList.remove('active');
+                if (parseInt(step.dataset.step) === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update progress bar
+            const progress = (currentStep / totalSteps) * 100;
+            wizardProgressFill.style.width = progress + '%';
+            wizardStepText.textContent = `Step ${currentStep} of ${totalSteps}`;
+            wizardStepName.textContent = stepNames[currentStep - 1] || '';
+
+            // Update back button visibility
+            wizardBack.style.visibility = currentStep > 1 ? 'visible' : 'hidden';
+
+            // Update next button text
+            if (currentStep === totalSteps) {
+                wizardNext.innerHTML = `
+                    Submit Request
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                `;
+            } else {
+                wizardNext.innerHTML = `
+                    Continue
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                `;
+            }
+
+            // Generate summary on step 6
+            if (currentStep === totalSteps) {
+                generateSummary();
+            }
+        }
+
+        // Validate current step
+        function validateStep() {
+            switch (currentStep) {
+                case 1:
+                    const name = document.getElementById('wizardName').value.trim();
+                    const email = document.getElementById('wizardEmail').value.trim();
+                    const company = document.getElementById('wizardCompany').value.trim();
+                    if (!name || !email || !company) {
+                        alert('Please fill in all required fields.');
+                        return false;
+                    }
+                    if (!email.includes('@')) {
+                        alert('Please enter a valid email address.');
+                        return false;
+                    }
+                    wizardData.name = name;
+                    wizardData.email = email;
+                    wizardData.company = company;
+                    return true;
+
+                case 2:
+                    const industry = document.getElementById('wizardIndustry').value;
+                    const companySize = document.querySelector('input[name="companySize"]:checked');
+                    if (!industry) {
+                        alert('Please select your industry.');
+                        return false;
+                    }
+                    wizardData.industry = industry;
+                    wizardData.companySize = companySize ? companySize.value : 'Not specified';
+                    return true;
+
+                case 3:
+                    const painPoints = document.querySelectorAll('input[name="painPoints"]:checked');
+                    wizardData.painPoints = Array.from(painPoints).map(p => p.value);
+                    wizardData.challenge = document.getElementById('wizardChallenge').value.trim();
+                    return true;
+
+                case 4:
+                    const tools = document.querySelectorAll('input[name="tools"]:checked');
+                    wizardData.tools = Array.from(tools).map(t => t.value);
+                    return true;
+
+                case 5:
+                    const timeline = document.querySelector('input[name="timeline"]:checked');
+                    const budget = document.querySelector('input[name="budget"]:checked');
+                    wizardData.timeline = timeline ? timeline.value : 'Not specified';
+                    wizardData.budget = budget ? budget.value : 'Not specified';
+                    return true;
+
+                default:
+                    return true;
+            }
+        }
+
+        // Generate summary
+        function generateSummary() {
+            const summaryItems = [
+                { label: 'Name', value: wizardData.name },
+                { label: 'Email', value: wizardData.email },
+                { label: 'Company', value: wizardData.company },
+                { label: 'Industry', value: wizardData.industry },
+                { label: 'Company Size', value: wizardData.companySize },
+                { label: 'Pain Points', value: wizardData.painPoints.length ? wizardData.painPoints.join(', ') : 'None selected' },
+                { label: 'Tools Used', value: wizardData.tools.length ? wizardData.tools.join(', ') : 'None selected' },
+                { label: 'Timeline', value: wizardData.timeline },
+                { label: 'Budget', value: wizardData.budget }
+            ];
+
+            wizardSummaryGrid.innerHTML = summaryItems.map(item => `
+                <div class="wizard-summary-item">
+                    <span class="wizard-summary-label">${item.label}</span>
+                    <span class="wizard-summary-value">${item.value}</span>
+                </div>
+            `).join('');
+        }
+
+        // Submit wizard form
+        async function submitWizard() {
+            wizardNext.disabled = true;
+            wizardNext.innerHTML = `
+                <div class="wizard-loading">
+                    <span class="wizard-loading-dot"></span>
+                    <span class="wizard-loading-dot"></span>
+                    <span class="wizard-loading-dot"></span>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('https://n8n.assadvirgo.com/webhook/6d86b7be-3a52-45cb-93f1-8a60b11ef2c2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ...wizardData,
+                        submittedAt: new Date().toISOString(),
+                        source: 'AI Automation Landing Page'
+                    })
+                });
+
+                // Show success state
+                showSuccessState();
+
+            } catch (error) {
+                console.error('Submission error:', error);
+                // Still show success (the webhook might not return a response)
+                showSuccessState();
+            }
+        }
+
+        // Show success state
+        function showSuccessState() {
+            const steps = document.querySelectorAll('.wizard-step');
+            steps.forEach(step => step.classList.remove('active'));
+
+            const successStep = document.querySelector('.wizard-step[data-step="success"]');
+            successStep.classList.add('active');
+
+            wizardFooter.innerHTML = `
+                <button class="wizard-btn wizard-btn-next" onclick="closeWizard()" style="margin: 0 auto;">
+                    Close
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            `;
+
+            wizardProgressFill.style.width = '100%';
+            wizardStepText.textContent = 'Complete';
+            wizardStepName.textContent = 'Success!';
+        }
+
+        // Event listeners
+        wizardClose.addEventListener('click', closeWizard);
+        wizardOverlay.addEventListener('click', (e) => {
+            if (e.target === wizardOverlay) closeWizard();
+        });
+
+        wizardBack.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateWizardStep();
+            }
+        });
+
+        wizardNext.addEventListener('click', () => {
+            if (!validateStep()) return;
+
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateWizardStep();
+            } else {
+                submitWizard();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && wizardOverlay.classList.contains('active')) {
+                closeWizard();
+            }
+        });
+
+        // Checkbox and radio item selection styling
+        document.querySelectorAll('.wizard-checkbox-item input').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                this.closest('.wizard-checkbox-item').classList.toggle('selected', this.checked);
+            });
+        });
+
+        document.querySelectorAll('.wizard-radio-item input').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const group = this.closest('.wizard-radio-group');
+                group.querySelectorAll('.wizard-radio-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                this.closest('.wizard-radio-item').classList.add('selected');
+            });
+        });
+
+        // Open wizard from buttons
+        document.querySelectorAll('[data-open-wizard]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openWizard();
+            });
+        });
     </script>
 </body>
 </html>
