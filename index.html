@@ -395,10 +395,17 @@
             -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
         }
 
-        .hero-content {
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
             position: relative;
             z-index: 10;
-            max-width: 800px;
+        }
+
+        .hero-content {
+            position: relative;
         }
 
         .hero-badge {
@@ -504,6 +511,280 @@
             margin-top: 8px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+        }
+
+        /* Hero Visual - AI Brain */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+        }
+
+        .ai-brain-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+
+        /* Central AI Core */
+        .ai-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: corePulse 3s ease-in-out infinite;
+        }
+
+        .ai-core::before {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(0, 123, 255, 0.8), 0 0 100px rgba(0, 123, 255, 0.4);
+        }
+
+        .ai-core::after {
+            content: 'AI';
+            position: absolute;
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            z-index: 1;
+        }
+
+        @keyframes corePulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Orbital Rings */
+        .orbital-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px solid rgba(0, 123, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbital-ring:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            animation: orbitSpin 20s linear infinite;
+        }
+
+        .orbital-ring:nth-child(2) {
+            width: 280px;
+            height: 280px;
+            border-color: rgba(0, 212, 255, 0.15);
+            animation: orbitSpin 30s linear infinite reverse;
+        }
+
+        .orbital-ring:nth-child(3) {
+            width: 360px;
+            height: 360px;
+            border-color: rgba(168, 85, 247, 0.1);
+            animation: orbitSpin 40s linear infinite;
+        }
+
+        @keyframes orbitSpin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Floating Nodes */
+        .node {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.2);
+            animation: nodeFloat 4s ease-in-out infinite;
+        }
+
+        .node::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 123, 255, 0.1);
+            border-radius: 12px;
+            animation: nodePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes nodeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .node:nth-child(4) { top: 5%; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+        .node:nth-child(5) { top: 25%; right: 5%; animation-delay: 0.5s; }
+        .node:nth-child(6) { bottom: 25%; right: 5%; animation-delay: 1s; }
+        .node:nth-child(7) { bottom: 5%; left: 50%; transform: translateX(-50%); animation-delay: 1.5s; }
+        .node:nth-child(8) { bottom: 25%; left: 5%; animation-delay: 2s; }
+        .node:nth-child(9) { top: 25%; left: 5%; animation-delay: 2.5s; }
+
+        /* Connection Lines */
+        .connection-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .connection-lines svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .connection-line {
+            stroke: url(#lineGradient);
+            stroke-width: 1;
+            fill: none;
+            opacity: 0.4;
+            stroke-dasharray: 5, 5;
+            animation: dashMove 2s linear infinite;
+        }
+
+        @keyframes dashMove {
+            to { stroke-dashoffset: -20; }
+        }
+
+        /* Data Particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .particle:nth-child(10) { animation: particleMove1 3s linear infinite; }
+        .particle:nth-child(11) { animation: particleMove2 4s linear infinite 0.5s; }
+        .particle:nth-child(12) { animation: particleMove3 3.5s linear infinite 1s; }
+        .particle:nth-child(13) { animation: particleMove4 4.5s linear infinite 1.5s; }
+
+        @keyframes particleMove1 {
+            0% { top: 50%; left: 50%; opacity: 1; }
+            100% { top: 5%; left: 50%; opacity: 0; }
+        }
+
+        @keyframes particleMove2 {
+            0% { top: 50%; left: 50%; opacity: 1; }
+            100% { top: 25%; right: 5%; left: auto; opacity: 0; }
+        }
+
+        @keyframes particleMove3 {
+            0% { top: 50%; left: 50%; opacity: 1; }
+            100% { bottom: 25%; left: 5%; top: auto; opacity: 0; }
+        }
+
+        @keyframes particleMove4 {
+            0% { top: 50%; left: 50%; opacity: 1; }
+            100% { top: 25%; left: 5%; opacity: 0; }
+        }
+
+        /* Status Indicators */
+        .status-card {
+            position: absolute;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.75rem;
+            backdrop-filter: blur(10px);
+            animation: fadeSlideIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .status-card.top-right {
+            top: 10%;
+            right: -20px;
+            animation-delay: 0.5s;
+        }
+
+        .status-card.bottom-left {
+            bottom: 15%;
+            left: -20px;
+            animation-delay: 1s;
+        }
+
+        @keyframes fadeSlideIn {
+            to { opacity: 1; }
+        }
+
+        .status-card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-value {
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        /* Responsive Hero */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .hero-content {
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
         }
 
         /* ========================================
@@ -1670,51 +1951,147 @@
         </div>
 
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="hero-badge-dot" aria-hidden="true"></span>
-                    AI-Powered Business Automation
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="hero-badge-dot" aria-hidden="true"></span>
+                        AI-Powered Business Automation
+                    </div>
+
+                    <h1 class="hero-title" id="hero-title">
+                        From Manual Workflows to <span class="gradient-text">Intelligent Operations.</span>
+                    </h1>
+
+                    <p class="hero-subtitle">
+                        GOL Technologies builds custom AI agents and communication bots that handle your heavy lifting. We bridge the gap between legacy software and the AI era.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="#cta" class="btn btn-primary">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            Book an AI Strategy Audit
+                        </a>
+                        <a href="#use-cases" class="btn btn-secondary">
+                            Explore Our Use Cases
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-value"><span class="count-up" data-target="85">0</span><span class="stat-suffix">%</span></div>
+                            <div class="stat-label">Reduction in Manual Tasks</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value"><span class="count-up" data-target="3">0</span><span class="stat-suffix">x</span></div>
+                            <div class="stat-label">Faster Response Time</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value"><span class="count-up" data-target="24">0</span><span class="stat-suffix">/7</span></div>
+                            <div class="stat-label">Automated Operations</div>
+                        </div>
+                    </div>
                 </div>
 
-                <h1 class="hero-title" id="hero-title">
-                    From Manual Workflows to <span class="gradient-text">Intelligent Operations.</span>
-                </h1>
+                <!-- AI Brain Visualization -->
+                <div class="hero-visual" aria-hidden="true">
+                    <div class="ai-brain-container">
+                        <!-- Orbital Rings -->
+                        <div class="orbital-ring"></div>
+                        <div class="orbital-ring"></div>
+                        <div class="orbital-ring"></div>
 
-                <p class="hero-subtitle">
-                    GOL Technologies builds custom AI agents and communication bots that handle your heavy lifting. We bridge the gap between legacy software and the AI era.
-                </p>
+                        <!-- Floating Tech Nodes -->
+                        <div class="node">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="node">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                            </svg>
+                        </div>
+                        <div class="node">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                        </div>
+                        <div class="node">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </div>
+                        <div class="node">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5"></path>
+                                <path d="M2 12l10 5 10-5"></path>
+                            </svg>
+                        </div>
+                        <div class="node">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
 
-                <div class="hero-cta">
-                    <a href="#cta" class="btn btn-primary">
-                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                        Book an AI Strategy Audit
-                    </a>
-                    <a href="#use-cases" class="btn btn-secondary">
-                        Explore Our Use Cases
-                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </a>
-                </div>
+                        <!-- Data Particles -->
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
 
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-value"><span class="count-up" data-target="85">0</span><span class="stat-suffix">%</span></div>
-                        <div class="stat-label">Reduction in Manual Tasks</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value"><span class="count-up" data-target="3">0</span><span class="stat-suffix">x</span></div>
-                        <div class="stat-label">Faster Response Time</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value"><span class="count-up" data-target="24">0</span><span class="stat-suffix">/7</span></div>
-                        <div class="stat-label">Automated Operations</div>
+                        <!-- Central AI Core -->
+                        <div class="ai-core"></div>
+
+                        <!-- Connection Lines SVG -->
+                        <div class="connection-lines">
+                            <svg viewBox="0 0 400 400">
+                                <defs>
+                                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#007BFF;stop-opacity:0" />
+                                        <stop offset="50%" style="stop-color:#00D4FF;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#007BFF;stop-opacity:0" />
+                                    </linearGradient>
+                                </defs>
+                                <line class="connection-line" x1="200" y1="60" x2="200" y2="140" />
+                                <line class="connection-line" x1="340" y1="140" x2="260" y2="180" />
+                                <line class="connection-line" x1="340" y1="260" x2="260" y2="220" />
+                                <line class="connection-line" x1="200" y1="340" x2="200" y2="260" />
+                                <line class="connection-line" x1="60" y1="260" x2="140" y2="220" />
+                                <line class="connection-line" x1="60" y1="140" x2="140" y2="180" />
+                            </svg>
+                        </div>
+
+                        <!-- Status Cards -->
+                        <div class="status-card top-right">
+                            <div class="status-card-header">
+                                <span class="status-dot"></span>
+                                Processing
+                            </div>
+                            <div class="status-value">1,247 req/s</div>
+                        </div>
+
+                        <div class="status-card bottom-left">
+                            <div class="status-card-header">
+                                <span class="status-dot"></span>
+                                AI Model
+                            </div>
+                            <div class="status-value">GPT-4 Active</div>
+                        </div>
                     </div>
                 </div>
             </div>
