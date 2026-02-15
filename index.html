@@ -319,116 +319,275 @@
   .tag-non { background: #FFF3E0; color: #E65100; }
 
   /* ── CONFIG MANAGER ─────────────────────────────────── */
-  .config-actions {
+  .config-card {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    margin-bottom: 14px;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+  .config-card-head {
+    background: linear-gradient(135deg, #37474F 0%, #546E7A 100%);
+    color: var(--white);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .config-card-head-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .config-card-head-title svg { opacity: 0.8; }
+  .config-badge {
+    background: rgba(255,255,255,0.2);
+    color: var(--white);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 22px;
+    text-align: center;
+  }
+  .config-card-body { padding: 14px 16px; }
+  .config-input-row {
     display: flex;
     gap: 6px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
-  .config-actions input[type="text"] {
+  .config-input-row input[type="text"] {
     flex: 1;
-    padding: 6px 10px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
+    padding: 8px 12px;
+    border: 1.5px solid #E0E0E0;
+    border-radius: 8px;
     font-size: 12px;
     font-family: inherit;
+    background: var(--lt-grey);
+    transition: all 0.2s;
   }
-  .config-actions input[type="text"]:focus {
+  .config-input-row input[type="text"]:focus {
     outline: none;
     border-color: var(--dk-green);
-    box-shadow: 0 0 0 2px rgba(1,65,28,0.15);
+    box-shadow: 0 0 0 3px rgba(1,65,28,0.1);
+    background: var(--white);
   }
-  .btn {
-    padding: 6px 12px;
+  .config-input-row input[type="text"].error {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(198,40,40,0.1);
+  }
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 14px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
-    transition: opacity 0.2s;
+    transition: all 0.2s;
+    font-family: inherit;
   }
-  .btn:hover { opacity: 0.85; }
-  .btn-save {
-    background: var(--dk-green);
+  .btn-icon:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .btn-icon:active { transform: translateY(0); }
+  .btn-icon svg { flex-shrink: 0; }
+  .btn-save-config {
+    background: linear-gradient(135deg, var(--dk-green) 0%, var(--md-green) 100%);
     color: var(--white);
   }
-  .config-list {
-    max-height: 200px;
-    overflow-y: auto;
+  .config-toolbar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
   }
+  .btn-toolbar {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 7px 10px;
+    border: 1.5px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: inherit;
+    background: var(--white);
+    color: var(--dk-grey);
+  }
+  .btn-toolbar:hover {
+    border-color: var(--dk-green);
+    color: var(--dk-green);
+    background: var(--lt-green);
+  }
+  .btn-toolbar svg { flex-shrink: 0; }
+  .config-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #E0E0E0, transparent);
+    margin: 0 0 10px;
+  }
+  .config-list-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--md-grey);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .config-list {
+    max-height: 220px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #CFD8DC transparent;
+  }
+  .config-list::-webkit-scrollbar { width: 4px; }
+  .config-list::-webkit-scrollbar-track { background: transparent; }
+  .config-list::-webkit-scrollbar-thumb { background: #CFD8DC; border-radius: 4px; }
   .config-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 6px 8px;
-    border-bottom: 1px solid #EEE;
+    padding: 8px 10px;
+    border-radius: 8px;
     font-size: 12px;
+    transition: all 0.15s;
+    margin-bottom: 4px;
+    background: var(--lt-grey);
+    border: 1px solid transparent;
   }
-  .config-item:last-child { border-bottom: none; }
-  .config-item-name {
+  .config-item:last-child { margin-bottom: 0; }
+  .config-item:hover {
+    background: var(--lt-green);
+    border-color: rgba(1,65,28,0.1);
+  }
+  .config-item-info {
     flex: 1;
-    font-weight: 500;
+    min-width: 0;
+  }
+  .config-item-name {
+    display: block;
+    font-weight: 600;
     color: var(--dk-grey);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-right: 8px;
+    font-size: 12px;
+    line-height: 1.3;
   }
   .config-item-date {
+    display: block;
     font-size: 9px;
     color: var(--md-grey);
-    margin-right: 8px;
-    white-space: nowrap;
+    line-height: 1.3;
   }
   .config-item-actions {
     display: flex;
     gap: 4px;
+    margin-left: 8px;
+    flex-shrink: 0;
   }
   .btn-sm {
-    padding: 3px 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 4px 8px;
     border: none;
-    border-radius: 3px;
+    border-radius: 6px;
     font-size: 10px;
     font-weight: 700;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: all 0.15s;
+    font-family: inherit;
   }
-  .btn-sm:hover { opacity: 0.85; }
+  .btn-sm:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+  .btn-sm:active { transform: translateY(0); }
   .btn-load {
-    background: var(--blue);
+    background: linear-gradient(135deg, #1565C0, #1E88E5);
     color: var(--white);
   }
   .btn-delete {
-    background: var(--red);
-    color: var(--white);
+    background: transparent;
+    color: #B71C1C;
+    border: 1px solid #FFCDD2;
   }
+  .btn-delete:hover { background: #FFEBEE; }
   .config-empty {
+    text-align: center;
+    padding: 20px 10px;
+  }
+  .config-empty-icon {
+    margin-bottom: 8px;
+    opacity: 0.3;
+  }
+  .config-empty-text {
     font-size: 11px;
     color: var(--md-grey);
-    font-style: italic;
-    text-align: center;
-    padding: 12px 0;
+  }
+  .config-empty-hint {
+    font-size: 10px;
+    color: #BDBDBD;
+    margin-top: 2px;
   }
   .config-toast {
     position: fixed;
     bottom: 24px;
     left: 50%;
     transform: translateX(-50%) translateY(60px);
-    background: var(--dk-green);
+    background: linear-gradient(135deg, #263238, #37474F);
     color: var(--white);
-    padding: 10px 24px;
-    border-radius: 6px;
+    padding: 12px 24px;
+    border-radius: 10px;
     font-size: 12px;
     font-weight: 600;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
     opacity: 0;
-    transition: transform 0.3s, opacity 0.3s;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s;
     z-index: 9999;
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   .config-toast.show {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
+  }
+
+  /* ── PRINT / PDF STYLES ──────────────────────────────── */
+  @media print {
+    body { background: white; font-size: 9px; line-height: 1.3; }
+    .header { padding: 10px 20px; }
+    .header h1 { font-size: 16px; }
+    .config-card, .config-toast, .btn-toolbar { display: none !important; }
+    .container { padding: 8px; max-width: 100%; }
+    .grid-3 { display: block; }
+    .grid-3 > div { margin-bottom: 12px; }
+    .card { box-shadow: none; border: 1px solid #CCC; page-break-inside: avoid; }
+    .kpi-row { grid-template-columns: repeat(6, 1fr); }
+    .footer { margin-top: 10px; }
+    input[type="range"] { display: none; }
+    .input-group label .val,
+    .cost-slider-group label .val { font-size: 12px; }
+    .input-group label,
+    .cost-slider-group label { justify-content: flex-start; gap: 8px; }
+    .cost-slider-group .includes { display: none; }
+    .pct-bar { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    tr.section-head td, tr.subtotal-row td, th, .card-head, .header, .footer,
+    .kpi, .kpi-gold, .pct-consultant, .pct-core, .pct-first, .pct-second, .pct-third,
+    .cost-row.grand, #bar-tbc, #bar-nontbc {
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
   }
 
   /* ── FOOTER ─────────────────────────────────────────── */
@@ -458,15 +617,42 @@
     <!-- ════════════════ LEFT PANEL: INPUTS ════════════════ -->
     <div>
       <!-- Configuration Manager -->
-      <div class="card" style="margin-bottom:14px;">
-        <div class="card-head" style="background:#455A64;">SAVED CONFIGURATIONS</div>
-        <div class="card-body">
-          <div class="config-actions">
-            <input type="text" id="config-name" placeholder="Configuration name..." maxlength="50">
-            <button class="btn btn-save" id="btn-save-config">SAVE</button>
+      <div class="config-card">
+        <div class="config-card-head">
+          <div class="config-card-head-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            CONFIGURATIONS
           </div>
+          <div class="config-badge" id="config-count">0</div>
+        </div>
+        <div class="config-card-body">
+          <div class="config-input-row">
+            <input type="text" id="config-name" placeholder="Name this configuration..." maxlength="50">
+            <button class="btn-icon btn-save-config" id="btn-save-config">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Save
+            </button>
+          </div>
+          <div class="config-toolbar">
+            <button class="btn-toolbar" id="btn-export-pdf" title="Download current view as PDF">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Download PDF
+            </button>
+            <button class="btn-toolbar" id="btn-reset-defaults" title="Reset all sliders to defaults">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              Reset
+            </button>
+          </div>
+          <div class="config-divider"></div>
+          <div class="config-list-label">Saved Presets</div>
           <div class="config-list" id="config-list">
-            <div class="config-empty">No saved configurations yet.</div>
+            <div class="config-empty">
+              <div class="config-empty-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
+              </div>
+              <div class="config-empty-text">No saved configurations</div>
+              <div class="config-empty-hint">Name &amp; save your current settings above</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1136,6 +1322,12 @@ recalc();
 
 const CONFIG_STORAGE_KEY = 'pises-cost-simulator-configs';
 
+const SLIDER_DEFAULTS = {
+  students: '7000', rate: '4771', consultant: '10', core: '40',
+  first: '18', second: '14', third: '18', gfAcad: '1.45',
+  gfHs: '1.65', gfOps: '1.55', maxCls: '25', buffer: '8', eyCls: '22'
+};
+
 function getSliderValues() {
   const values = {};
   for (const [key, el] of Object.entries(sliders)) {
@@ -1165,11 +1357,24 @@ function saveSavedConfigs(configs) {
   localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(configs));
 }
 
-function showToast(message) {
+function updateConfigCount() {
+  const count = getSavedConfigs().length;
+  $('config-count').textContent = count;
+}
+
+function showToast(message, icon) {
   const toast = $('config-toast');
-  toast.textContent = message;
+  toast.innerHTML = '';
+  if (icon) {
+    const iconEl = document.createElement('span');
+    iconEl.innerHTML = icon;
+    toast.appendChild(iconEl);
+  }
+  const text = document.createElement('span');
+  text.textContent = message;
+  toast.appendChild(text);
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
+  setTimeout(() => toast.classList.remove('show'), 2200);
 }
 
 function saveConfig() {
@@ -1177,8 +1382,8 @@ function saveConfig() {
   const name = nameInput.value.trim();
   if (!name) {
     nameInput.focus();
-    nameInput.style.borderColor = 'var(--red)';
-    setTimeout(() => nameInput.style.borderColor = '', 1500);
+    nameInput.classList.add('error');
+    setTimeout(() => nameInput.classList.remove('error'), 1500);
     return;
   }
 
@@ -1190,7 +1395,8 @@ function saveConfig() {
     savedAt: new Date().toISOString()
   };
 
-  if (existing >= 0) {
+  const isUpdate = existing >= 0;
+  if (isUpdate) {
     configs[existing] = entry;
   } else {
     configs.unshift(entry);
@@ -1199,7 +1405,10 @@ function saveConfig() {
   saveSavedConfigs(configs);
   nameInput.value = '';
   renderConfigList();
-  showToast('Configuration "' + name + '" saved');
+  showToast(
+    isUpdate ? 'Updated "' + name + '"' : 'Saved "' + name + '"',
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
+  );
 }
 
 function loadConfig(name) {
@@ -1207,7 +1416,10 @@ function loadConfig(name) {
   const config = configs.find(c => c.name === name);
   if (config) {
     applySliderValues(config.values);
-    showToast('Loaded "' + name + '"');
+    showToast(
+      'Loaded "' + name + '"',
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>'
+    );
   }
 }
 
@@ -1215,26 +1427,51 @@ function deleteConfig(name) {
   const configs = getSavedConfigs().filter(c => c.name !== name);
   saveSavedConfigs(configs);
   renderConfigList();
-  showToast('Deleted "' + name + '"');
+  showToast(
+    'Deleted "' + name + '"',
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+  );
+}
+
+function resetToDefaults() {
+  applySliderValues(SLIDER_DEFAULTS);
+  showToast(
+    'Reset to defaults',
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>'
+  );
+}
+
+function exportPDF() {
+  window.print();
 }
 
 function renderConfigList() {
   const configs = getSavedConfigs();
   const list = $('config-list');
+  updateConfigCount();
 
   if (configs.length === 0) {
-    list.innerHTML = '<div class="config-empty">No saved configurations yet.</div>';
+    list.innerHTML = `<div class="config-empty">
+      <div class="config-empty-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
+      </div>
+      <div class="config-empty-text">No saved configurations</div>
+      <div class="config-empty-hint">Name &amp; save your current settings above</div>
+    </div>`;
     return;
   }
 
   list.innerHTML = '';
-  configs.forEach((c, i) => {
+  configs.forEach((c) => {
     const d = new Date(c.savedAt);
     const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
                   + ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
     const item = document.createElement('div');
     item.className = 'config-item';
+
+    const info = document.createElement('div');
+    info.className = 'config-item-info';
 
     const nameSpan = document.createElement('span');
     nameSpan.className = 'config-item-name';
@@ -1245,33 +1482,38 @@ function renderConfigList() {
     dateSpan.className = 'config-item-date';
     dateSpan.textContent = dateStr;
 
+    info.appendChild(nameSpan);
+    info.appendChild(dateSpan);
+
     const actions = document.createElement('span');
     actions.className = 'config-item-actions';
 
     const loadBtn = document.createElement('button');
     loadBtn.className = 'btn-sm btn-load';
-    loadBtn.textContent = 'Load';
+    loadBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg> Load';
     loadBtn.addEventListener('click', () => loadConfig(c.name));
 
     const delBtn = document.createElement('button');
     delBtn.className = 'btn-sm btn-delete';
-    delBtn.textContent = 'Del';
+    delBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+    delBtn.title = 'Delete';
     delBtn.addEventListener('click', () => deleteConfig(c.name));
 
     actions.appendChild(loadBtn);
     actions.appendChild(delBtn);
-    item.appendChild(nameSpan);
-    item.appendChild(dateSpan);
+    item.appendChild(info);
     item.appendChild(actions);
     list.appendChild(item);
   });
 }
 
-// Wire up save button & enter key
+// Wire up buttons
 $('btn-save-config').addEventListener('click', saveConfig);
 $('config-name').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') saveConfig();
 });
+$('btn-export-pdf').addEventListener('click', exportPDF);
+$('btn-reset-defaults').addEventListener('click', resetToDefaults);
 
 // Render saved configs on load
 renderConfigList();
