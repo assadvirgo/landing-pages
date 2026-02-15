@@ -318,6 +318,119 @@
   .tag-tbc { background: var(--lt-green); color: var(--dk-green); }
   .tag-non { background: #FFF3E0; color: #E65100; }
 
+  /* ── CONFIG MANAGER ─────────────────────────────────── */
+  .config-actions {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .config-actions input[type="text"] {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: inherit;
+  }
+  .config-actions input[type="text"]:focus {
+    outline: none;
+    border-color: var(--dk-green);
+    box-shadow: 0 0 0 2px rgba(1,65,28,0.15);
+  }
+  .btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-save {
+    background: var(--dk-green);
+    color: var(--white);
+  }
+  .config-list {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .config-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 8px;
+    border-bottom: 1px solid #EEE;
+    font-size: 12px;
+  }
+  .config-item:last-child { border-bottom: none; }
+  .config-item-name {
+    flex: 1;
+    font-weight: 500;
+    color: var(--dk-grey);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+  }
+  .config-item-date {
+    font-size: 9px;
+    color: var(--md-grey);
+    margin-right: 8px;
+    white-space: nowrap;
+  }
+  .config-item-actions {
+    display: flex;
+    gap: 4px;
+  }
+  .btn-sm {
+    padding: 3px 8px;
+    border: none;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-sm:hover { opacity: 0.85; }
+  .btn-load {
+    background: var(--blue);
+    color: var(--white);
+  }
+  .btn-delete {
+    background: var(--red);
+    color: var(--white);
+  }
+  .config-empty {
+    font-size: 11px;
+    color: var(--md-grey);
+    font-style: italic;
+    text-align: center;
+    padding: 12px 0;
+  }
+  .config-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(60px);
+    background: var(--dk-green);
+    color: var(--white);
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  .config-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
   /* ── FOOTER ─────────────────────────────────────────── */
   .footer {
     background: var(--dk-green);
@@ -344,6 +457,20 @@
 
     <!-- ════════════════ LEFT PANEL: INPUTS ════════════════ -->
     <div>
+      <!-- Configuration Manager -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-head" style="background:#455A64;">SAVED CONFIGURATIONS</div>
+        <div class="card-body">
+          <div class="config-actions">
+            <input type="text" id="config-name" placeholder="Configuration name..." maxlength="50">
+            <button class="btn btn-save" id="btn-save-config">SAVE</button>
+          </div>
+          <div class="config-list" id="config-list">
+            <div class="config-empty">No saved configurations yet.</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Student Count -->
       <div class="card" style="margin-bottom:14px;">
         <div class="card-head">STUDENT CAPACITY</div>
@@ -621,6 +748,8 @@
 <div class="footer">
   CONFIDENTIAL | Pakistan International School (English Section), Riyadh | Cost Simulator v1.0 | 2025
 </div>
+
+<div class="config-toast" id="config-toast"></div>
 
 <script>
 // ═══════════════════════════════════════════════════════════════
@@ -1000,6 +1129,152 @@ Object.values(sliders).forEach(sl => {
 
 // ── INITIAL CALCULATION ──────────────────────────────────────
 recalc();
+
+// ═══════════════════════════════════════════════════════════════
+// CONFIGURATION SAVE / LOAD
+// ═══════════════════════════════════════════════════════════════
+
+const CONFIG_STORAGE_KEY = 'pises-cost-simulator-configs';
+
+function getSliderValues() {
+  const values = {};
+  for (const [key, el] of Object.entries(sliders)) {
+    values[key] = el.value;
+  }
+  return values;
+}
+
+function applySliderValues(values) {
+  for (const [key, val] of Object.entries(values)) {
+    if (sliders[key]) {
+      sliders[key].value = val;
+    }
+  }
+  recalc();
+}
+
+function getSavedConfigs() {
+  try {
+    return JSON.parse(localStorage.getItem(CONFIG_STORAGE_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveSavedConfigs(configs) {
+  localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(configs));
+}
+
+function showToast(message) {
+  const toast = $('config-toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function saveConfig() {
+  const nameInput = $('config-name');
+  const name = nameInput.value.trim();
+  if (!name) {
+    nameInput.focus();
+    nameInput.style.borderColor = 'var(--red)';
+    setTimeout(() => nameInput.style.borderColor = '', 1500);
+    return;
+  }
+
+  const configs = getSavedConfigs();
+  const existing = configs.findIndex(c => c.name === name);
+  const entry = {
+    name: name,
+    values: getSliderValues(),
+    savedAt: new Date().toISOString()
+  };
+
+  if (existing >= 0) {
+    configs[existing] = entry;
+  } else {
+    configs.unshift(entry);
+  }
+
+  saveSavedConfigs(configs);
+  nameInput.value = '';
+  renderConfigList();
+  showToast('Configuration "' + name + '" saved');
+}
+
+function loadConfig(name) {
+  const configs = getSavedConfigs();
+  const config = configs.find(c => c.name === name);
+  if (config) {
+    applySliderValues(config.values);
+    showToast('Loaded "' + name + '"');
+  }
+}
+
+function deleteConfig(name) {
+  const configs = getSavedConfigs().filter(c => c.name !== name);
+  saveSavedConfigs(configs);
+  renderConfigList();
+  showToast('Deleted "' + name + '"');
+}
+
+function renderConfigList() {
+  const configs = getSavedConfigs();
+  const list = $('config-list');
+
+  if (configs.length === 0) {
+    list.innerHTML = '<div class="config-empty">No saved configurations yet.</div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  configs.forEach((c, i) => {
+    const d = new Date(c.savedAt);
+    const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                  + ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+    const item = document.createElement('div');
+    item.className = 'config-item';
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'config-item-name';
+    nameSpan.title = c.name;
+    nameSpan.textContent = c.name;
+
+    const dateSpan = document.createElement('span');
+    dateSpan.className = 'config-item-date';
+    dateSpan.textContent = dateStr;
+
+    const actions = document.createElement('span');
+    actions.className = 'config-item-actions';
+
+    const loadBtn = document.createElement('button');
+    loadBtn.className = 'btn-sm btn-load';
+    loadBtn.textContent = 'Load';
+    loadBtn.addEventListener('click', () => loadConfig(c.name));
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'btn-sm btn-delete';
+    delBtn.textContent = 'Del';
+    delBtn.addEventListener('click', () => deleteConfig(c.name));
+
+    actions.appendChild(loadBtn);
+    actions.appendChild(delBtn);
+    item.appendChild(nameSpan);
+    item.appendChild(dateSpan);
+    item.appendChild(actions);
+    list.appendChild(item);
+  });
+}
+
+// Wire up save button & enter key
+$('btn-save-config').addEventListener('click', saveConfig);
+$('config-name').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') saveConfig();
+});
+
+// Render saved configs on load
+renderConfigList();
 </script>
 </body>
 </html>
